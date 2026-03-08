@@ -176,6 +176,12 @@ The training script generates:
 - **Final Model**: `checkpoints/final_model.pth` (model from last epoch)
 - **Training History**: `checkpoints/training_history.png` (loss and accuracy plots)
 
+### Example Training Results
+
+Training history for 4 classes of dogs with 100 images per class:
+
+![Training History](results/training_history4.png)
+
 ## Evaluation Outputs
 
 The evaluation script generates:
