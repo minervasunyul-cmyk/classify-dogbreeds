@@ -198,6 +198,19 @@ The evaluation script generates:
 6. **Image Size**: 224x224 is standard, but you can experiment with other sizes
 7. **Training Duration**: Monitor validation accuracy and stop early if overfitting occurs
 
+## System Specifications
+
+**Tested on:**
+- **OS**: Windows 11
+- **CPU**: 4 physical cores, 8 logical cores
+- **RAM**: 7.73 GB
+- **GPU**: None (CPU-only training)
+- **Python**: 3.13.5
+- **PyTorch**: 2.10.0+cpu
+
+Training time: 6 days, 9:57:56.551175
+> Note: Training performance will vary based on hardware. GPU acceleration is recommended for faster training.
+
 ## Requirements
 
 - Python 3.7+
