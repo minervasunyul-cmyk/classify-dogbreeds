@@ -10,6 +10,7 @@ This project implements an attention-based Convolutional Neural Network (CNN) us
 - **Training Pipeline**: Complete training script with validation, checkpointing, and learning rate scheduling
 - **Evaluation Tools**: Comprehensive evaluation with confusion matrix and classification reports
 - **Single Image Inference**: Predict classes for individual images
+- **Attention Visualization**: Visualize where the model focuses its attention using attention maps and heatmaps
 
 ## Project Structure
 
@@ -24,6 +25,7 @@ yul_dog_breed/
 ├── train.py                      # Training script
 ├── evaluate.py                   # Evaluation and inference script
 ├── optimize_hyperparameters.py   # Optuna hyperparameter optimization
+├── 05_visualize_attention.py    # Attention visualization script
 ├── requirements.txt              # Python dependencies
 └── README.md                     # This file
 ```
@@ -154,6 +156,48 @@ python evaluate.py --checkpoint checkpoints/best_model.pth --image_path path/to/
 - `--batch_size`: Batch size for evaluation (default: `32`)
 - `--output_dir`: Directory to save evaluation results (default: `results`)
 
+### Attention Visualization
+
+Visualize where the model focuses its attention when making predictions. The visualization extracts spatial attention maps from all 4 CBAM layers and overlays them on the original images.
+
+**Basic Usage:**
+```bash
+python 05_visualize_attention.py
+```
+
+The script automatically:
+- Finds the checkpoint at `results/final_model.pth`
+- Processes all images in the `pictures` directory
+- Generates attention visualizations with heatmaps and overlays
+
+**Visualization Features:**
+- Shows attention maps from 4 different layers (attention1-4) at different depths
+- **Color Scheme**: Black (low attention) → Red (medium-high) → Yellow (highest attention)
+- Displays original image with prediction and confidence
+- Creates overlay visualizations showing attention masks on the original image
+
+**Understanding the Attention Layers:**
+- **attention1**: Low-level features (edges, textures) - operates on 64 channels
+- **attention2**: Mid-level features (patterns, shapes) - operates on 128 channels
+- **attention3**: Higher-level features (object parts) - operates on 256 channels
+- **attention4**: High-level features (complete objects) - operates on 512 channels
+
+**Example Visualizations:**
+
+Example 1:
+![Attention Visualization Example 1](attention_visualizations/example1_attention.png)
+
+Example 2:
+![Attention Visualization Example 2](attention_visualizations/example2_attention.png)
+
+Example 3:
+![Attention Visualization Example 3](attention_visualizations/example3_attention.png)
+
+The visualizations show:
+- **Top row**: Original image with prediction, followed by attention heatmaps from each layer
+- **Bottom row**: Original image, followed by attention overlays showing where the model focuses
+- **Color intensity**: Red and yellow regions indicate where the model pays the most attention
+
 ## Model Architecture
 
 The model uses a CBAM (Convolutional Block Attention Module) architecture:
@@ -164,9 +208,19 @@ The model uses a CBAM (Convolutional Block Attention Module) architecture:
 
 The architecture consists of:
 - Initial convolution and pooling layers
-- Four convolutional blocks with CBAM attention modules
+- Four convolutional blocks with CBAM attention modules at different depths:
+  - **attention1**: After first conv block (64 channels) - focuses on low-level features
+  - **attention2**: After second conv block (128 channels) - focuses on mid-level features
+  - **attention3**: After third conv block (256 channels) - focuses on higher-level features
+  - **attention4**: After fourth conv block (512 channels) - focuses on high-level features
 - Global average pooling
 - Fully connected classifier with dropout
+
+Each attention module combines:
+- **Channel Attention**: Determines "what" features are important
+- **Spatial Attention**: Determines "where" important information is located
+
+The multiple attention layers enable hierarchical feature learning, allowing the model to focus on relevant parts of the image at different levels of abstraction.
 
 ## Training Outputs
 

@@ -53,21 +53,10 @@ def main():
     
     first_file, first_time = files_with_times[0]
     last_file, last_time = files_with_times[-1]
-    
+    for x in files_with_times:
+        print(x[0], x[1])
     time_diff = last_time - first_time
-    
-    # Format output
-    print(f"Directory: {directory}")
-    print(f"\nFirst created file:")
-    print(f"  Path: {first_file}")
-    print(f"  Time: {first_time.strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"\nLast created file:")
-    print(f"  Path: {last_file}")
-    print(f"  Time: {last_time.strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"\nTime difference: {time_diff}")
-    print(f"  Days: {time_diff.days}")
-    print(f"  Hours: {time_diff.total_seconds() / 3600:.2f}")
-    print(f"  Minutes: {time_diff.total_seconds() / 60:.2f}")
+    print(time_diff)
 
 if __name__ == "__main__":
     main()
