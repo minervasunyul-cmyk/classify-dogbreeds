@@ -26,6 +26,7 @@ yul_dog_breed/
 ├── evaluate.py                   # Evaluation and inference script
 ├── optimize_hyperparameters.py   # Optuna hyperparameter optimization
 ├── 05_visualize_attention.py    # Attention visualization script
+├── plot_history.py               # Plot trial history from hyperparameter optimization
 ├── requirements.txt              # Python dependencies
 └── README.md                     # This file
 ```
@@ -133,6 +134,31 @@ python optimize_hyperparameters.py \
 - **Best Hyperparameters**: `optuna_checkpoints/best_hyperparameters.json`
 - **Study Object**: `optuna_checkpoints/{study_name}.pkl`
 - **Visualization Plots**: `optuna_checkpoints/plots/` (requires plotly and kaleido)
+- **Trial History**: Use `plot_history.py` to visualize trial progress
+
+**⚠️ Important Note on Hyperparameter Optimization:**
+The hyperparameter optimization shown in this project was performed with:
+- **Fewer epochs** per trial (for faster exploration)
+- **Smaller dataset subset** (to reduce computation time)
+
+This was done **only to demonstrate that the optimization scheme works**. For production use, you should:
+- Use the full dataset (or remove `--data_subset` argument)
+- Train for more epochs per trial
+- Run more trials for better hyperparameter search
+
+**Visualizing Optimization Progress:**
+
+Plot trial number vs best validation accuracy:
+
+```bash
+python plot_history.py --directory optuna_checkpoints
+```
+
+Example optimization results:
+
+![Trial History](trial_history.png)
+
+This plot shows how validation accuracy improved across different hyperparameter trials. The optimization automatically explores different combinations of learning rates, batch sizes, optimizers, and other hyperparameters to find the best configuration.
 
 ### Evaluation
 
